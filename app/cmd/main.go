@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"io/ioutil"
 	"math/rand"
 	"net"
@@ -42,7 +43,7 @@ var rootCmd = &cobra.Command{
 		rand.Seed(time.Now().UnixNano())
 
 		// log config
-		logrus.SetOutput(os.Stdout)
+		logrus.SetOutput(io.Discard)
 		if lvl, err := logrus.ParseLevel(viper.GetString("log-level")); err == nil {
 			logrus.SetLevel(lvl)
 		} else {
@@ -85,12 +86,12 @@ var rootCmd = &cobra.Command{
 		}
 
 		// check update
-		if !viper.GetBool("no-check") {
-			go checkUpdate()
-		}
+		//		if !viper.GetBool("no-check") {
+		//			go checkUpdate()
+		//		}
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		clientCmd.Run(cmd, args)
+		serverCmd.Run(cmd, args)
 	},
 }
 
