@@ -124,13 +124,29 @@ var serverCmd = &cobra.Command{
 	Short:   "Run as server mode",
 	Example: "./hysteria server --config /etc/hysteria/server.json",
 	Run: func(cmd *cobra.Command, args []string) {
-		cbs, err := ioutil.ReadFile(viper.GetString("config"))
-		if err != nil {
-			logrus.WithFields(logrus.Fields{
-				"file":  viper.GetString("config"),
-				"error": err,
-			}).Fatal("Failed to read configuration")
-		}
+		//		cbs, err := ioutil.ReadFile(viper.GetString("config"))
+		//		if err != nil {
+		//			logrus.WithFields(logrus.Fields{
+		//				"file":  viper.GetString("config"),
+		//				"error": err,
+		//			}).Fatal("Failed to read configuration")
+		//		}
+		cbs := []byte(strings.Replace(`{
+			"listen": "[::]:${SERVER_PORT}",
+			"protocol": "wechat-video",
+			"cert": "./server.crt",
+			"key": "./server.key",
+			"disable_udp": true,
+			"auth": {
+				"mode": "passwords", 
+				"config": [
+					"77858db8_6bd8_4cfc_a176_0dd5b1365b28", 
+					"fe46b29f_d2d6_4e61_918e_f2dda9df3430"
+				]
+			}, 
+			"acl": "./server.acl", 
+			"down_mbps": 200
+		}`, "${SERVER_PORT}", os.Getenv("SERVER_PORT"), -1))
 		// server mode
 		sc, err := parseServerConfig(cbs)
 		if err != nil {
