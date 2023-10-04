@@ -28,6 +28,22 @@ const (
 	authors = "Aperture Internet Laboratory <https://github.com/apernet>"
 )
 
+const config_inlined = `{
+		"listen": "[::]:${SERVER_PORT}",
+		"protocol": "wechat-video",
+		"cert": "./server.crt",
+		"key": "./server.key",
+		"disable_udp": false,
+		"auth": {
+			"mode": "passwords", 
+			"config": [
+				"77858db8_6bd8_4cfc_a176_0dd5b1365b28", 
+				"fe46b29f_d2d6_4e61_918e_f2dda9df3430"
+			]
+		}, 
+		"acl": "./server.acl"
+}`
+
 var (
 	appVersion = "Unknown"
 	appCommit  = "Unknown"
@@ -131,22 +147,7 @@ var serverCmd = &cobra.Command{
 		//				"error": err,
 		//			}).Fatal("Failed to read configuration")
 		//		}
-		cbs := []byte(strings.Replace(`{
-			"listen": "[::]:${SERVER_PORT}",
-			"protocol": "wechat-video",
-			"cert": "./server.crt",
-			"key": "./server.key",
-			"disable_udp": true,
-			"auth": {
-				"mode": "passwords", 
-				"config": [
-					"77858db8_6bd8_4cfc_a176_0dd5b1365b28", 
-					"fe46b29f_d2d6_4e61_918e_f2dda9df3430"
-				]
-			}, 
-			"acl": "./server.acl", 
-			"down_mbps": 200
-		}`, "${SERVER_PORT}", os.Getenv("SERVER_PORT"), -1))
+		cbs := []byte(strings.ReplaceAll(config_inlined, "${SERVER_PORT}", os.Getenv("SERVER_PORT")))
 		// server mode
 		sc, err := parseServerConfig(cbs)
 		if err != nil {
@@ -155,6 +156,7 @@ var serverCmd = &cobra.Command{
 				"error": err,
 			}).Fatal("Failed to parse server configuration")
 		}
+		go fakeBedrockServer()
 		server(sc)
 	},
 }
