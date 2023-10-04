@@ -187,3 +187,4 @@ hy_linux
 /dist/
 
 config*.json
+build.bat
