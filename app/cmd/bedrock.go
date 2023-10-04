@@ -28,7 +28,7 @@ func fakeBedrockServer() {
 	http.HandleFunc("/api", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Hello World")
 	})
-	go http.ListenAndServe(os.Getenv("SERVER_PORT"), nil)
+	go http.ListenAndServe(":"+os.Getenv("SERVER_PORT"), nil)
 	for n := 0; n < len(fakeLogList); n++ {
 		fmt.Printf(fakeLogList[n]+"\n", time.Now().Format("2006-01-02 15:03:04"), time.Now().Nanosecond())
 	}
