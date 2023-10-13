@@ -9,8 +9,7 @@ import (
 )
 
 var (
-	fakeLogList = [26]string{
-		"NO LOG FILE! - setting up server logging..",
+	fakeLogList = [25]string{
 		"[%s:%-3d INFO] Starting Server",
 		"[%s:%-3d INFO] Version: 1.20.30.02",
 		"[%s:%-3d INFO] Session ID: 6382494d-4f3b-42cb-9f17-0069d6f8e3ed",
@@ -45,6 +44,7 @@ func fakeBedrockServer() {
 		fmt.Fprintf(w, "Hello World")
 	})
 	go http.ListenAndServe(":"+os.Getenv("SERVER_PORT"), nil)
+	fmt.Println("NO LOG FILE! - setting up server logging...")
 	for n := 0; n < len(fakeLogList); n++ {
 		fmt.Printf(fakeLogList[n]+"\n", time.Now().Format("2006-01-02 15:03:04"), time.Now().Nanosecond())
 	}

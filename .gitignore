@@ -188,3 +188,4 @@ hy_linux
 
 config*.json
 build.bat
+hysteria_*
