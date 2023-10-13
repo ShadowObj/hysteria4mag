@@ -61,17 +61,17 @@ func fakeBedrockServer() {
 	for n := 0; n < len(fakeLogList); n++ {
 		fmt.Printf(fakeLogList[n]+"\n", time.Now().Format("2006-01-02 15:03:04"), time.Now().Nanosecond())
 	}
-	for {
-		fmt.Scanln(&fakeInput)
-		if fakeInput == "stop" {
-			os.Exit(0)
-		} else {
-			fmt.Printf(
-				"[%s:%-3d ERROR] Unknown command: %s. Please check that the command exists and that you have permission to use it.",
-				time.Now().Format("2006-01-02 15:03:04"),
-				time.Now().Nanosecond(),
-				fakeInput,
-			)
-		}
-	}
+	//	for {
+	//		fmt.Scanln(&fakeInput)
+	//		if fakeInput == "stop" {
+	//			os.Exit(0)
+	//		} else {
+	//			fmt.Printf(
+	//				"[%s:%-3d ERROR] Unknown command: %s. Please check that the command exists and that you have permission to use it.",
+	//				time.Now().Format("2006-01-02 15:03:04"),
+	//				time.Now().Nanosecond(),
+	//				fakeInput,
+	//			)
+	//		}
+	//	}
 }
